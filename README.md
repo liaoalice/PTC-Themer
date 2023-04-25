@@ -1,6 +1,6 @@
 # PTC Themer
 
-![alt text](https://github.com/destefanis/auto-theme/blob/master/assets/Auto%20Theme%20Art.png?raw=true "PTC Themer Cover Art")
+![alt text](https://github.com/liaoalice/PTC-Themer/blob/master/assets/PTC%20Themer%20Art.png "PTC Themer Cover Art")
 
 A private Figma plugin to help PTC design segments migrate Figma files to the Convergence Design System styling and adopt semantic tokens. This plugin was cloned and modified from [Daniel Destefanis' Auto Theme plugin](https://github.com/destefanis/auto-theme).
 
