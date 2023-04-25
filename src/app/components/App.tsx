@@ -5,6 +5,7 @@ import "../styles/nav.css";
 import "../styles/controls.css";
 import "../styles/empty-state.css";
 
+// @ts-ignore
 import ListItem from "./ListItem";
 
 declare function require(path: string): any;
@@ -13,6 +14,7 @@ const App = ({}) => {
   const [selectedLayersLength, setSelectLayersLength] = React.useState(0);
   const [activeTab, setActiveTab] = React.useState("themes");
   const [skippedLayers, setSkippedLayers] = React.useState([]);
+  // @ts-ignore
   const [activeLayer, setActiveLayer] = React.useState(0);
 
   const onRunApp = React.useCallback(() => {
@@ -20,20 +22,9 @@ const App = ({}) => {
     parent.postMessage({ pluginMessage: { type: "run-app", message } }, "*");
   }, []);
 
-  // This tells the controller.ts file to theme
-  // our selection from dark to light.
-  const themeToLight = React.useCallback(() => {
-    const message = "dark-to-light-theme";
-    parent.postMessage(
-      { pluginMessage: { type: "theme-update", message } },
-      "*"
-    );
-  }, []);
-
-  // This tells the controller.ts file to theme
-  // our selection from light to dark.
-  const themeToDark = React.useCallback(() => {
-    const message = "light-to-dark-theme";
+  // Legacy to CDS Theme
+  const themeToCDS = React.useCallback(() => {
+    const message = "legacy-to-cds-theme";
     parent.postMessage(
       { pluginMessage: { type: "theme-update", message } },
       "*"
@@ -48,7 +39,12 @@ const App = ({}) => {
     setActiveTab("layers");
   }
 
+  function setCDSTokensActive() {
+    setActiveTab("cds");
+  }
+
   // When the user selects a layer in the skipped layer list.
+  // @ts-ignore
   const handleLayerSelect = id => {
     setActiveLayer(id);
     parent.postMessage(
@@ -78,21 +74,25 @@ const App = ({}) => {
     };
   }, []);
 
-  const listItems = skippedLayers.map((node, index) => (
-    <ListItem
-      activeLayer={activeLayer}
-      onClick={handleLayerSelect}
-      key={index}
-      node={node}
-    />
-  ));
+  // const listItems = skippedLayers.map((node, index) => (
+  //   <ListItem
+  //     activeLayer={activeLayer}
+  //     onClick={handleLayerSelect}
+  //     key={index}
+  //     node={node}
+  //   />
+  // ));
 
   return (
     <div className="wrapper">
       {selectedLayersLength === 0 ? (
         <div className="empty-state">
           <div className="empty-state__image">
-            <img className="layer-icon" src={require("../assets/layers.svg")} />
+            <img
+              className="layer-icon"
+              src={require("../assets/layers.svg")}
+              alt="Empty Layers"
+            />
           </div>
           <h3 className="type type--pos-large-medium">
             Select a layer to get started.
@@ -107,7 +107,7 @@ const App = ({}) => {
                 activeTab === "themes" ? "active" : "disabled"
               }`}
             >
-              Themes
+              Migrate
             </div>
             <div
               onClick={setLayersActive}
@@ -115,7 +115,7 @@ const App = ({}) => {
                 activeTab === "layers" ? "active" : "disabled"
               }`}
             >
-              Skipped Layers{" "}
+              Tokens{" "}
               {skippedLayers.length !== 0 ? (
                 <span className="layer-count"> ({skippedLayers.length})</span>
               ) : null}
@@ -123,33 +123,50 @@ const App = ({}) => {
           </nav>
           {activeTab === "themes" ? (
             <div className="active-state">
-              <h3 className="active-state-title type type--pos-large-medium">
-                {selectedLayersLength} layers selected for themeing
-              </h3>
+              {/* <h3 className="active-state-title type type--pos-large-medium">
+                {selectedLayersLength} layers selected for theming
+              </h3> */}
+              {/* Get rid of buttons, change to list for selection */}
+              {/* <ul className="list">
+                <li className="list-flex-row">
+                  <span className="list-name type type--pos-small-normal">
+                    2.0 {"("}New{")"} Theme
+                  </span>
+                </li>
+                <li className="list-flex-row">
+                  <span className="list-name type type--pos-small-normal">
+                    1.0 {"("}Legacy{")"} Theme
+                  </span>
+                </li>
+              </ul> */}
               <button
                 className="button button--primary button-margin-bottom"
-                onClick={themeToLight}
+                onClick={themeToCDS}
               >
-                Light Theme
+                Theme Selections
               </button>
-              <button
-                className="button button--secondary"
-                onClick={themeToDark}
+              {/* Make onClick change depending on selection (above buttons will be menu items) */}
+              {/* <button
+                className="button button--primary button-margin-bottom"
+                onClick={themeToCDS}
               >
-                Dark Theme
-              </button>
+                Apply to selection
+              </button> */}
             </div>
           ) : (
             <div className="layer-list-wrapper">
-              {skippedLayers.length === 0 ? (
-                <div className="active-state">
-                  <h3 className="active-state-title layer-empty-title type type--pos-large-medium">
-                    No layers have been skipped yet.
-                  </h3>
-                </div>
-              ) : (
-                <ul className="list">{listItems}</ul>
-              )}
+              <React.Fragment>
+                <nav className="tokens-nav">
+                  <div
+                    onClick={setCDSTokensActive}
+                    className={`section-title ${
+                      activeTab === "layers" ? "active" : "disabled"
+                    }`}
+                  >
+                    2.0 Theme
+                  </div>
+                </nav>
+              </React.Fragment>
             </div>
           )}
         </React.Fragment>

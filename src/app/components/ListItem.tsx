@@ -20,7 +20,10 @@ function ListItem(props) {
       <div className="list-flex-row">
         <span className="list-arrow"></span>
         <span className="list-icon">
-          <img src={require("../assets/" + node.type.toLowerCase() + ".svg")} />
+          <img
+            src={require("../assets/" + node.type.toLowerCase() + ".svg")}
+            alt="icon"
+          />
         </span>
         <span className="list-name type type--pos-small-normal">
           {node.name}

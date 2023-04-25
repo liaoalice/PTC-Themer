@@ -4,6 +4,7 @@ figma.showUI(__html__, { width: 320, height: 358 });
 // Imported themes
 import { darkTheme } from "./dark-to-light-theme";
 import { lightTheme } from "./light-to-dark-theme";
+import { cdsTheme } from "./old-to-new-theme";
 
 // Utility function for serializing nodes to pass back to the UI.
 function serializeNodes(nodes) {
@@ -30,6 +31,11 @@ const flatten = obj => {
     return acc;
   }, []);
 };
+
+// Utility function for preserving text overrides
+// function preserveText(nodes) {
+//   return preserveText;
+// }
 
 figma.ui.onmessage = msg => {
   let skippedLayers = [];
@@ -69,14 +75,20 @@ figma.ui.onmessage = msg => {
       nodesToTheme.map(selected => updateTheme(selected, lightTheme));
     }
 
-    // Need to wait for some promises to resolve before
-    // sending the skipped layers back to the UI.
-    setTimeout(function() {
-      figma.ui.postMessage({
-        type: "layers-skipped",
-        message: serializeNodes(skippedLayers)
-      });
-    }, 500);
+    if (msg.message === "legacy-to-cds-theme") {
+      // Update the layers with this theme, by passing in the
+      // selected nodes and the theme object.
+      nodesToTheme.map(selected => updateTheme(selected, cdsTheme));
+    }
+
+    // // Need to wait for some promises to resolve before
+    // // sending the skipped layers back to the UI.
+    // setTimeout(function() {
+    //   figma.ui.postMessage({
+    //     type: "layers-skipped",
+    //     message: serializeNodes(skippedLayers)
+    //   });
+    // }, 500);
 
     figma.notify(`Theming complete`, { timeout: 750 });
   }
@@ -158,13 +170,51 @@ figma.ui.onmessage = msg => {
     applyComponent(node, importedComponent);
   }
 
-  async function swapComponent(node, key, mappings) {
+  async function swapComponent(
+    node,
+    key,
+    mappings,
+    textOverrides,
+    iconVisible
+  ) {
     await replaceComponent(
       node,
       key,
       mappings,
       (node, masterComponent) => (node.masterComponent = masterComponent)
     );
+
+    // @ts-ignore
+    async function traverseText(node, i) {
+      // loop through layers
+      if (
+        node.type === "GROUP" ||
+        node.type === "FRAME" ||
+        node.type === "INSTANCE"
+      ) {
+        for (const child of node.children) traverseText(child, i);
+      } else if (node.type === "TEXT") {
+        await figma.loadFontAsync(node.fontName);
+        node.characters = textOverrides; // replace text!
+      }
+    }
+
+    // @ts-ignore
+    async function traverseIcon(node, i, iconVisible) {
+      if (
+        node.type === "GROUP" ||
+        node.type === "FRAME" ||
+        (node.type === "INSTANCE" && node.name !== "Left Icon")
+      ) {
+        for (const child of node.children) traverseIcon(child, i, iconVisible);
+      } else if (node.name === "Left Icon") {
+        console.log(iconVisible);
+        node.visible = iconVisible; // match icon visibility!
+      }
+    }
+    traverseIcon(node, node.children.length, iconVisible);
+
+    traverseText(node, node.children.length);
   }
 
   async function replaceFills(node, style, mappings) {
@@ -255,10 +305,61 @@ figma.ui.onmessage = msg => {
       }
       case "INSTANCE": {
         let componentKey = node.masterComponent.key;
-        // If this instance is in mapping, then call it and skip it's children
+        // If this instance is in mapping, then call it and skip its children
         // otherwise check for the normal differences.
         if (theme[componentKey] !== undefined) {
-          swapComponent(node, componentKey, theme);
+          // @ts-ignore
+          var textOverrides = [];
+          // @ts-ignore
+          let iconVisible: boolean = false;
+          if (
+            node.mainComponent.key ===
+              "a49cb847db7c647fd15612c7bf381d10164e50b4" ||
+            node.mainComponent.key ===
+              "b4b977139dba80eba8392be3effa8eaaaff32c1f" ||
+            node.mainComponent.key ===
+              "4e3ae58e7516afa8e909f4eff3def5dd76d87654" ||
+            node.mainComponent.key ===
+              "8f9d1a97fa9b5e9a41ea2fdfd5a8b2c5d599dc52"
+          ) {
+            console.log("I'm a button!"); // confirm instance is a button, then loop to check if left icon is visible
+            function traverse(node, i) {
+              if (
+                node.type === "GROUP" ||
+                node.type === "FRAME" ||
+                (node.type === "INSTANCE" && node.name !== "Left Icon")
+              ) {
+                for (const child of node.children) traverse(child, i);
+              } else if (node.name === "Left Icon") {
+                console.log("Found icon layer!");
+                iconVisible = node.visible;
+                console.log(iconVisible);
+              }
+            }
+            traverse(node, node.children.length);
+          }
+
+          if (node.overrides.length > 0) {
+            // check for text overrides
+            // @ts-ignore
+            function traverse(node, i) {
+              // loop through layers
+              if (
+                node.type === "GROUP" ||
+                node.type === "FRAME" ||
+                node.type === "INSTANCE"
+              ) {
+                for (const child of node.children) traverse(child, i);
+              } else if (node.type === "TEXT") {
+                console.log("Found text layer!");
+                textOverrides = node.characters; // save text override
+              }
+            }
+
+            traverse(node, node.children.length);
+          }
+
+          swapComponent(node, componentKey, theme, textOverrides, iconVisible); //swap component
         } else {
           if (node.fills) {
             if (node.fillStyleId && typeof node.fillStyleId !== "symbol") {
@@ -301,8 +402,6 @@ figma.ui.onmessage = msg => {
           let style = determineFill(node.fills);
           let nodeType = node.type;
           replaceNoStyleFill(node, nodeType, style, theme);
-        } else {
-          skippedLayers.push(node);
         }
       }
       default: {

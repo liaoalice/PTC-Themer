@@ -1,6 +1,6 @@
 {
-  "name": "Auto Theme",
-  "id": "816463256448925575",
+  "name": "PTC Themer",
+  "id": "1232561363203562202",
   "api": "1.0.0",
   "main": "dist/code.js",
   "ui": "dist/ui.html",
