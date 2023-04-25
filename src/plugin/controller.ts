@@ -175,7 +175,8 @@ figma.ui.onmessage = msg => {
     key,
     mappings,
     textOverrides,
-    iconVisible
+    leftIcon,
+    rightIcon
   ) {
     await replaceComponent(
       node,
@@ -200,19 +201,24 @@ figma.ui.onmessage = msg => {
     }
 
     // @ts-ignore
-    async function traverseIcon(node, i, iconVisible) {
+    async function traverseIcon(node, i, leftIcon, rightIcon) {
       if (
         node.type === "GROUP" ||
         node.type === "FRAME" ||
-        (node.type === "INSTANCE" && node.name !== "Left Icon")
+        (node.type === "INSTANCE" &&
+          node.name !== "Left Icon" &&
+          (node.type === "INSTANCE" && node.name !== "Right Icon"))
       ) {
-        for (const child of node.children) traverseIcon(child, i, iconVisible);
+        for (const child of node.children)
+          traverseIcon(child, i, leftIcon, rightIcon);
       } else if (node.name === "Left Icon") {
-        console.log(iconVisible);
-        node.visible = iconVisible; // match icon visibility!
+        node.visible = leftIcon; // match icon visibility!
+      } else if (node.name === "Right Icon") {
+        console.log("Right icon!");
+        node.visible = rightIcon; // match icon visibility!
       }
     }
-    traverseIcon(node, node.children.length, iconVisible);
+    traverseIcon(node, node.children.length, leftIcon, rightIcon);
 
     traverseText(node, node.children.length);
   }
@@ -310,8 +316,9 @@ figma.ui.onmessage = msg => {
         if (theme[componentKey] !== undefined) {
           // @ts-ignore
           var textOverrides = [];
-          // @ts-ignore
-          let iconVisible: boolean = false;
+          // icon visibility for buttons
+          let leftIcon: boolean = false;
+          let rightIcon: boolean = false;
           if (
             node.mainComponent.key ===
               "a49cb847db7c647fd15612c7bf381d10164e50b4" ||
@@ -322,18 +329,21 @@ figma.ui.onmessage = msg => {
             node.mainComponent.key ===
               "8f9d1a97fa9b5e9a41ea2fdfd5a8b2c5d599dc52"
           ) {
-            console.log("I'm a button!"); // confirm instance is a button, then loop to check if left icon is visible
             function traverse(node, i) {
               if (
                 node.type === "GROUP" ||
                 node.type === "FRAME" ||
-                (node.type === "INSTANCE" && node.name !== "Left Icon")
+                (node.type === "INSTANCE" &&
+                  node.name !== "Left Icon" &&
+                  (node.type === "INSTANCE" && node.name !== "Right Icon"))
               ) {
                 for (const child of node.children) traverse(child, i);
               } else if (node.name === "Left Icon") {
-                console.log("Found icon layer!");
-                iconVisible = node.visible;
-                console.log(iconVisible);
+                console.log("Found left icon!");
+                leftIcon = node.visible;
+              } else if (node.name === "Right Icon") {
+                console.log("Found right icon!");
+                rightIcon = node.visible;
               }
             }
             traverse(node, node.children.length);
@@ -359,7 +369,14 @@ figma.ui.onmessage = msg => {
             traverse(node, node.children.length);
           }
 
-          swapComponent(node, componentKey, theme, textOverrides, iconVisible); //swap component
+          swapComponent(
+            node,
+            componentKey,
+            theme,
+            textOverrides,
+            leftIcon,
+            rightIcon
+          ); //swap component
         } else {
           if (node.fills) {
             if (node.fillStyleId && typeof node.fillStyleId !== "symbol") {
