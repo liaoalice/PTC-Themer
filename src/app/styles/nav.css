@@ -5,7 +5,7 @@
   padding: 4px 8px;
 }
 
-.tokens-nav {
+.nav-tokens {
   display: flex;
   flex-flow: row;
   border-top: 1px solid #e5e5e5;
@@ -81,6 +81,7 @@
 }
 
 .list-flex-row {
+  padding-left: 16px;
   height: 32px;
   display: flex;
   flex-flow: row;
@@ -93,7 +94,11 @@
 }
 
 .list-flex-row:hover {
-  border-color: #18a0fb;
+  border-color: #0075ff;
+}
+
+.list-flex-row:active {
+  background: #daebf7;
 }
 
 .list-flex-row:hover .list-arrow-icon {
@@ -123,4 +128,257 @@
 .layer-count {
   padding-left: 2px;
   /* color: #b3b3b3; */
+}
+
+.token-swatch {
+  width: 16px;
+  height: 16px;
+  border: none;
+}
+
+.white {
+  background: #ffffff;
+  border: 1px solid #bec6ca;
+}
+
+.gray-1 {
+  background: #f6f6f6;
+  border: 1px solid #bec6ca;
+}
+
+.gray-2 {
+  background: #e4e7e9;
+}
+
+.gray-3 {
+  background: #bec6ca;
+}
+
+.gray-4 {
+  background: #aeb8bd;
+}
+
+.gray-5 {
+  background: #9aa6ad;
+}
+
+.gray-7 {
+  background: #617480;
+}
+
+.gray-8 {
+  background: #4e5d66;
+}
+
+.gray-9 {
+  background: #3e4a52;
+}
+
+.gray-10 {
+  background: #323b42;
+}
+
+.gray-11 {
+  background: #282f35;
+}
+
+.gray-12 {
+  background-color: #20262a;
+}
+
+.red-2 {
+  background: #f4cdcd;
+}
+
+.red-5 {
+  background-color: #e38484;
+}
+
+.red-7 {
+  background-color: #d33e3e;
+}
+
+.red-8 {
+  background-color: #a7232e;
+}
+
+.red-9 {
+  background-color: #861c25;
+}
+
+.red-10 {
+  background-color: #6b161e;
+}
+
+.red-11 {
+  background-color: #d33e3e;
+}
+
+.green-2 {
+  background-color: #bde1bf;
+}
+
+.green-5 {
+  background-color: #5cb463;
+}
+
+.green-7 {
+  background-color: #00890b;
+}
+
+.green-8 {
+  background-color: #006e09;
+}
+
+.green-9 {
+  background-color: #005807;
+}
+
+.green-10 {
+  background-color: #004606;
+}
+
+.green-11 {
+  background-color: #003805;
+}
+
+.blue-7 {
+  background-color: #197bc0;
+}
+
+.blue-8 {
+  background-color: #14629a;
+}
+
+.blue-9 {
+  background-color: #104e7b;
+}
+
+.blue-10 {
+  background-color: #0d3e62;
+}
+
+.overlay {
+  background: rgba(32, 38, 42, 0.55);
+}
+
+.chart-1 {
+  background: #f05b80;
+}
+
+.chart-2 {
+  background: #8d909a;
+}
+
+.chart-3 {
+  background: #2f97ff;
+}
+
+.chart-4 {
+  background: #bb68c8;
+}
+
+.chart-5 {
+  background: #eb6d00;
+}
+
+.chart-6 {
+  background: #b8849a;
+}
+
+.chart-7 {
+  background: #8a4ff7;
+}
+
+.chart-8 {
+  background: #139492;
+}
+
+.chart-9 {
+  background: #aa9103;
+}
+
+.chart-10 {
+  background: #c33e70;
+}
+
+.chart-11 {
+  background: #904b6f;
+}
+
+.chart-12 {
+  background: #9d27b0;
+}
+
+.chart-13 {
+  background: #3363d8;
+}
+
+.chart-14 {
+  background: #00709e;
+}
+
+.chart-15 {
+  background: #2a5b59;
+}
+
+.chart-16 {
+  background: #381394;
+}
+
+.chart-17 {
+  background: #8f3809;
+}
+
+.chart-18 {
+  background: #8e6514;
+}
+
+.chart-19 {
+  background: #5d5f69;
+}
+
+.chart-20 {
+  background: #86335e;
+}
+
+.chart-21 {
+  background: #490e3e;
+}
+
+.chart-22 {
+  background: #56226e;
+}
+
+.chart-23 {
+  background: #2b387f;
+}
+
+.chart-24 {
+  background: #1d496e;
+}
+
+.elevation-raised {
+  background: white;
+  box-shadow: 0px 2px 4px 0px rgba(35, 43, 45, 0.3);
+}
+
+.elevation-dialog {
+  background: white;
+  box-shadow: 0px 0px 250px 0px rgba(35, 43, 45, 0.5);
+}
+
+.elevation-tile {
+  background: white;
+  box-shadow: 0px 2px 10px 0px rgba(32, 38, 42, 0.3);
+}
+
+.elevation-slider {
+  border-radius: 24px;
+  box-shadow: 0px 2px 4px 0px rgba(140, 140, 140, 0.3),
+    0px -2px 4px 0px rgba(140, 140, 140, 0.2);
+}
+
+.elevation-popup-tip {
+  box-shadow: 0px 4px 4px 0px rgba(35, 43, 45, 0.3);
 }

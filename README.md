@@ -19,5 +19,3 @@ If your Webpack build fails, you may need to switch to Node.js 17 through [Node 
 This repo is using:
 * React + Webpack
 * TypeScript
-* TSLint
-* Prettier precommit hook

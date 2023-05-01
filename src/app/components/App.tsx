@@ -8,6 +8,8 @@ import "../styles/empty-state.css";
 // @ts-ignore
 import ListItem from "./ListItem";
 
+import TokenList from "./TokenList";
+
 declare function require(path: string): any;
 
 const App = ({}) => {
@@ -39,9 +41,9 @@ const App = ({}) => {
     setActiveTab("layers");
   }
 
-  function setCDSTokensActive() {
-    setActiveTab("cds");
-  }
+  // function setCDSTokensActive() {
+  //   setActiveTab("cds");
+  // }
 
   // When the user selects a layer in the skipped layer list.
   // @ts-ignore
@@ -139,11 +141,16 @@ const App = ({}) => {
                   </span>
                 </li>
               </ul> */}
+              <h3 className="type type--pos-large-normal">
+                Select a Figma Component (or multiple), then press the button
+                below.
+              </h3>
+              <br></br>
               <button
                 className="button button--primary button-margin-bottom"
                 onClick={themeToCDS}
               >
-                Theme Selections
+                Migrate to 2.0
               </button>
               {/* Make onClick change depending on selection (above buttons will be menu items) */}
               {/* <button
@@ -155,18 +162,18 @@ const App = ({}) => {
             </div>
           ) : (
             <div className="layer-list-wrapper">
-              <React.Fragment>
-                <nav className="tokens-nav">
+              <TokenList />
+              {/* <React.Fragment>
+                <nav className="nav-tokens">
                   <div
                     onClick={setCDSTokensActive}
-                    className={`section-title ${
-                      activeTab === "layers" ? "active" : "disabled"
-                    }`}
+                    className={`section-title ${activeTab === "layers" ? "active" : "disabled"
+                      }`}
                   >
                     2.0 Theme
                   </div>
                 </nav>
-              </React.Fragment>
+              </React.Fragment> */}
             </div>
           )}
         </React.Fragment>
