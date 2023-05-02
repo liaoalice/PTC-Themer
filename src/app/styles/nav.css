@@ -97,6 +97,10 @@
   border-color: #0075ff;
 }
 
+.list-flex-row:focus-visible {
+  border-color: #0075ff;
+}
+
 .list-flex-row:active {
   background: #daebf7;
 }
@@ -169,12 +173,22 @@
   color: #fff;
 }
 
+.pill:focus-visible {
+  border: none;
+  box-shadow: 0px 0px 0px 2px #18a0fb;
+}
+
+.pill.active:focus-visible {
+  border: none;
+  box-shadow: inset 0px 0px 0px 2px #ffffff, 0px 0px 0px 2px #18a0fb;
+}
+
 .pill-divider {
   width: 1px;
   height: 32px;
 
   background: #c4c4c4;
-  margin-left: 0.5px;
+  margin-left: 4px;
   padding: 0.5px;
 }
 
