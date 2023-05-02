@@ -130,6 +130,44 @@
   /* color: #b3b3b3; */
 }
 
+.filter-pills {
+  padding: 12px;
+}
+
+.pill {
+  min-width: 44px;
+  border: 1px solid #dcddde;
+  border-radius: 16px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  color: #333;
+  text-align: center;
+  background: #fff;
+  margin-left: 4px;
+  padding: 4px 8px;
+  text-transform: capitalize;
+}
+
+.pill-divider {
+  display: inline-block;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+  margin-left: 4px;
+  padding: 4px 4px;
+}
+
+.selected {
+  background: #18a0fb;
+  border-color: #18a0fb;
+  color: #fff;
+}
+
 .token-swatch {
   width: 16px;
   height: 16px;
