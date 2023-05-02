@@ -6,12 +6,6 @@ function TokenList() {
   //@ts-ignore
   const [isActive, setIsActive] = useState(false);
 
-  //@ts-ignore
-  const toggleClass = this => {
-    // setIsActive(!isActive);
-    this.setIsActive({ isActive: this });
-  };
-
   const [selectedFilters, setSelectedFilters] = useState(new Set(["All"]));
 
   const handleFilterClick = filter => {
