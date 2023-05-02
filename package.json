@@ -11,6 +11,7 @@
 	"dependencies": {
 		"classnames": "^2.2.6",
 		"figma-plugin-ds": "^1.0.1",
+		"framer-motion": "^6.3.3",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6"
 	},
