@@ -384,18 +384,36 @@ function TokenList() {
             <span className="list-name type type--pos-xlarge-normal">
               --cds-color-background-primary
             </span>
+            <motion.button
+              className="info-button"
+              whileTap={{ scale: 0.92, opacity: 0.8 }}
+            >
+              <img src={require("../assets/info.svg")} alt="info" />
+            </motion.button>
           </span>
           <span className="list-flex-row" tabIndex={0}>
             <span className="token-swatch gray-1"></span>
             <span className="list-name type type--pos-xlarge-normal">
               --cds-color-background-secondary
             </span>
+            <motion.button
+              className="info-button"
+              whileTap={{ scale: 0.92, opacity: 0.8 }}
+            >
+              <img src={require("../assets/info.svg")} alt="info" />
+            </motion.button>
           </span>
           <span className="list-flex-row" tabIndex={0}>
             <span className="token-swatch gray-12"></span>
             <span className="list-name type type--pos-xlarge-normal">
               --cds-color-background-inverse
             </span>
+            <motion.button
+              className="info-button"
+              whileTap={{ scale: 0.92, opacity: 0.8 }}
+            >
+              <img src={require("../assets/info.svg")} alt="info" />
+            </motion.button>
           </span>
         </span>
 

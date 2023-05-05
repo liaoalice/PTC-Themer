@@ -109,15 +109,18 @@
   opacity: 1;
 }
 
-.list-icon {
-  text-align: center;
-  width: 16px;
-  opacity: 0.6;
+.list-icon img {
+  height: 18px;
+  width: 18px;
 }
 
-.list-icon img {
-  height: 12px;
-  width: 12px;
+.info-button {
+  border: none;
+  background: none;
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  left: 280px;
 }
 
 .list-name {

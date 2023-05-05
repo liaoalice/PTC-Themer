@@ -320,7 +320,102 @@ const cdsTheme = {
     mapsToName: "Button-Large-Icon / Primary / Hover"
   },
 
-  // Checkbox
+  /* Chart */
+  "72504e66377a4372d5f1bcbf20c96196eb78db15": {
+    // Column
+    name: "Chart / Column",
+    mapsToKey: "182c46a3feca494953ad6a5c1cde7b24be135fb4",
+    mapsToName: "Chart / Column"
+  },
+  "17f6f16775c85c41e2906592266e488dc3d78f33": {
+    // Bar
+    name: "Chart / Bar",
+    mapsToKey: "d116d34d741870df64a2384822ce1c0563e4b589",
+    mapsToName: "Chart / Bar"
+  },
+  bd935b1c8e1db5acf3b674f3b08e679c8195d95d: {
+    // Line
+    name: "Chart / Line",
+    mapsToKey: "7550cd0fbacf8c401efb72602122c69523d24f01",
+    mapsToName: "Chart / Bar"
+  },
+  "01cddc27a9b9204447917c2c77fde9d14bbb29d6": {
+    // Run
+    name: "Chart / Run",
+    mapsToKey: "217c84aba0f4c7c303ed7119fe749ae3950d8d4a",
+    mapsToName: "Chart / Run"
+  },
+  a2a89537d96f08b42be33dddafbd76556c04345d: {
+    // Step
+    name: "Chart / Step",
+    mapsToKey: "f4827952ba5da146c348cc97da722fa1a5984893",
+    mapsToName: "Chart / Step"
+  },
+  "1c3e14e403142bc25e9298f5c30a5e4f0defc514": {
+    // Scatter Plot
+    name: "Chart / Scatter Plot",
+    mapsToKey: "c2b98d635860ab496623c3d2a2bc583db42d39f1",
+    mapsToName: "Chart / Scatter Plot"
+  },
+  d94009387e2442abd24bc1d04f1e9b9f1efd05ca: {
+    // Area
+    name: "Chart / Area",
+    mapsToKey: "bc073cf2a60293e46f30798e8eaf3fdace9c22d9",
+    mapsToName: "Chart / Area"
+  },
+  "57c5f029a271aca12ec9a2001099c03e186d13d9": {
+    // Streamgraph
+    name: "Chart / Streamgraph",
+    mapsToKey: "a02888a3480c8f0cf1ef5062264eb36f18ad31b6",
+    mapsToName: "Chart / Streamgraph"
+  },
+  "1ea24e151241fd87911ee56b00f152328f2d1a6f": {
+    name: "Chart / Schedule - Series Collapsed",
+    mapsToKey: "258979d1816ff608f3efccc336786fef3f185812",
+    mapsToName: "Chart / Schedule - Series Collapsed"
+  },
+  "7b1500bc45ce235d9fb794925e58d0af6167a69c": {
+    name: "Chart / Schedule - Series Expanded",
+    mapsToKey: "88f1dcf650c4e22f3ad5aeb1a1d3c26c45d5d114",
+    mapsToName: "Chart / Schedule - Series Expanded"
+  },
+  "2b0d223f26dbd746acc4b43f9b083f34063b4de9": {
+    name: "Chart/ Pareto",
+    mapsToKey: "93896bf264931e903e0168ec09a782f673956b11",
+    mapsToName: "Chart / Pareto"
+  },
+  a515981a785c1d397e42f0a3b65fe27080003229: {
+    name: "Chart / Pareto - Each Column in Legend",
+    mapsToKey: "cf8cccef1a650d5b1100542c5ddb699e067d689f",
+    mapsToName: "Chart / Pareto - Each Column in Legend"
+  },
+  f22ea2ae3e10534828bd4928930a1882be1094c1: {
+    name: "Chart / Pareto - Stacked Series",
+    mapsToKey: "2648ee5695e41ed7fb278321bdb44a7df05ed4c0",
+    mapsToName: "Chart / Pareto - Stacked Series"
+  },
+  a6bdbd3e656126e6082b4e164b0adde4fe157fdf: {
+    name: "Chart / Pareto - Emphasize Threshold Factors",
+    mapsToKey: "cc098a7cd9b322929d2258c0aadceb48a6159233",
+    mapsToName: "Pareto - Emphasize Threshold Factors"
+  },
+  "097e033997084eb619c79415b0fe9b7af48d927b": {
+    name: "Chart / Waterfall",
+    mapsToKey: "1ff5b91bd2c87b2aa70ab0a4297969b936fa264e",
+    mapsToName: "Chart / Waterfall"
+  },
+  "777d658b5cd65f1f07daa3e4ad24a428750a1606": {
+    name: "Chart / Pie Chart",
+    mapsToKey: "58dce4ecb94152604544c7d83ecfa2d036c6212b",
+    mapsToName: "Chart / Pie Chart"
+  },
+  "1a313b7115be4ebfe512e1447267187d77668417": {
+    name: "Chart / Pie Chart - Radius",
+    mapsToKey: "6a1a4b41c8929e2f542f717c496d1bf037d96560",
+    mapsToName: "Donut"
+  },
+
+  /* Checkbox */
   "56e16a96a2700e68b47dc2e8b561dcd2ddeb18be": {
     // Default
     name: "*Checkbox With Label / Default",
@@ -376,7 +471,7 @@ const cdsTheme = {
     mapsToName: "Checkbox With Label / Partial Disabled"
   },
 
-  // Confirmation Dialog
+  /* Confirmation Dialog*/
   "99f06930fb429bb76653e45b2a24e312bdd4493f": {
     name: "Confirmation Dialog",
     mapsToKey: "b77e612a16d996d2b9778048397ec64b05e565e1",
