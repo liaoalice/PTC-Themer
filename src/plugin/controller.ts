@@ -90,7 +90,7 @@ figma.ui.onmessage = msg => {
     //   });
     // }, 500);
 
-    figma.notify(`Theming complete`, { timeout: 750 });
+    figma.notify(`Migration complete`, { timeout: 750 });
   }
 
   // When a layer is selected from the skipped layers.
@@ -176,7 +176,9 @@ figma.ui.onmessage = msg => {
     mappings,
     textOverrides,
     leftIcon,
-    rightIcon
+    leftIconType,
+    rightIcon,
+    rightIconType
   ) {
     await replaceComponent(
       node,
@@ -199,24 +201,57 @@ figma.ui.onmessage = msg => {
       }
     }
 
-    async function traverseIcon(node, i, leftIcon, rightIcon) {
+    async function traverseIcon(
+      node,
+      i,
+      leftIcon,
+      leftIconType,
+      rightIcon,
+      rightIconType
+    ) {
       if (
         node.type === "GROUP" ||
         node.type === "FRAME" ||
         (node.type === "INSTANCE" &&
           node.name !== "Left Icon" &&
-          (node.type === "INSTANCE" && node.name !== "Right Icon"))
+          (node.type === "INSTANCE" && node.name !== "Right Icon") &&
+          (node.type === "INSTANCE" && node.name !== "Icon"))
       ) {
         for (const child of node.children)
-          traverseIcon(child, i, leftIcon, rightIcon);
-      } else if (node.name === "Left Icon") {
-        node.visible = leftIcon; // match icon visibility!
-      } else if (node.name === "Right Icon") {
-        console.log("Right icon!");
-        node.visible = rightIcon; // match icon visibility!
+          traverseIcon(
+            child,
+            i,
+            leftIcon,
+            leftIconType,
+            rightIcon,
+            rightIconType
+          );
+      } else if (node.name === "Left Icon" || node.name === "Icon") {
+        node.visible = leftIcon; // match icon visibility
+        replaceComponent(
+          node,
+          leftIconType,
+          mappings,
+          (node, masterComponent) => (node.masterComponent = masterComponent)
+        ); // preserve icon swap
+      } else if (node.name === "Right Icon" || node.name === "Icon") {
+        node.visible = rightIcon; // match icon visibility
+        replaceComponent(
+          node,
+          rightIconType,
+          mappings,
+          (node, masterComponent) => (node.masterComponent = masterComponent)
+        ); // preserve icon swap
       }
     }
-    traverseIcon(node, node.children.length, leftIcon, rightIcon);
+    traverseIcon(
+      node,
+      node.children.length,
+      leftIcon,
+      leftIconType,
+      rightIcon,
+      rightIconType
+    );
 
     traverseText(node, node.children.length);
   }
@@ -312,77 +347,51 @@ figma.ui.onmessage = msg => {
         // If this instance is in mapping, then call it and skip its children
         // otherwise check for the normal differences.
         if (theme[componentKey] !== undefined) {
-          // text overrides
+          // overrides
           var textOverrides = [];
-          // icon visibility for buttons
           let leftIcon: boolean = false;
           let rightIcon: boolean = false;
           // icon instance for buttons
+          var leftIconType = [];
+          var rightIconType = [];
 
-          if (
-            // check if instance is a button
-            node.mainComponent.key ===
-              "fa21655d4e75355339f36fe9f6af17b9f6a76058" ||
-            node.mainComponent.key ===
-              "e5c697c717533ca879436c916e544f630423bc5f" ||
-            node.mainComponent.key ===
-              "d3f7a46044d3a25cbca61f2f4e92548d77c98231" ||
-            node.mainComponent.key ===
-              "f7d79eec392fc2371eb0a2e79bde29a9996ba483" ||
-            node.mainComponent.key ===
-              "a49cb847db7c647fd15612c7bf381d10164e50b4" ||
-            node.mainComponent.key ===
-              "8ea6499120a33786c86716ef5e38aa185eaee7a0" ||
-            node.mainComponent.key ===
-              "c45000850e5c6361cab142701c8d0148bfcc4bad" ||
-            node.mainComponent.key ===
-              "ec943f31b71b1767989afefc01b86e490723b91d" ||
-            node.mainComponent.key ===
-              "b4b977139dba80eba8392be3effa8eaaaff32c1f" ||
-            node.mainComponent.key ===
-              "3eba650be3c049546fdbf8dbff25a98442769bd5" ||
-            node.mainComponent.key ===
-              "1dd25355426e06a2fd335d89b2e27de778f853a9" ||
-            node.mainComponent.key ===
-              "af1e823509b45a6e216d2fa003c76bb3c3157c4f" ||
-            node.mainComponent.key ===
-              "4e3ae58e7516afa8e909f4eff3def5dd76d87654" ||
-            node.mainComponent.key ===
-              "ef34f7ed1ccc8373995b4e89ffe8fddcb7626539" ||
-            node.mainComponent.key ===
-              "d60af2ba2cf9b9a8ea7983a3bffc5dd8bde77c1b" ||
-            node.mainComponent.key ===
-              "588e7d0aa502f470be1a72578ccc47a90dfcbb37" ||
-            node.mainComponent.key ===
-              "8f9d1a97fa9b5e9a41ea2fdfd5a8b2c5d599dc52" ||
-            node.mainComponent.key ===
-              "5249c381257511fb8c87d55f4760ba9946c01f1d" ||
-            node.mainComponent.key ===
-              "97550c2903d47ad3b2b9aafcae15c59f1140cdec" ||
-            node.mainComponent.key ===
-              "537cef10af10bd77d56718bf50a14097638755f6" ||
-            node.mainComponent.key ===
-              "f7d79eec392fc2371eb0a2e79bde29a9996ba483"
-          ) {
-            function traverse(node, i) {
+          function traverse(node, i) {
+            if (
+              node.type === "GROUP" ||
+              node.type === "FRAME" ||
+              (node.type === "INSTANCE" &&
+                node.name !== "Left Icon" &&
+                (node.type === "INSTANCE" && node.name !== "Right Icon") &&
+                (node.type === "INSTANCE" && node.name !== "Icon"))
+            ) {
+              for (const child of node.children) traverse(child, i);
+            } else if (node.name === "Left Icon" || node.name === "Icon") {
+              leftIcon = node.visible;
               if (
-                node.type === "GROUP" ||
-                node.type === "FRAME" ||
-                (node.type === "INSTANCE" &&
-                  node.name !== "Left Icon" &&
-                  (node.type === "INSTANCE" && node.name !== "Right Icon"))
+                node.mainComponent.key !==
+                  "00d984c97a797ab5db1e0471e7b855af8bc7861a" ||
+                node.mainComponent.key !==
+                  "8c5ebec94adeb7b28df1934694be77fcee85b070" ||
+                node.mainComponent.key !==
+                  "68f81d0c7ebcf33f74ac0ba2949283bb8b424002"
               ) {
-                for (const child of node.children) traverse(child, i);
-              } else if (node.name === "Left Icon") {
-                console.log("Found left icon!");
-                leftIcon = node.visible;
-              } else if (node.name === "Right Icon") {
-                console.log("Found right icon!");
-                rightIcon = node.visible;
+                leftIconType = node.mainComponent.key;
+              }
+            } else if (node.name === "Right Icon" || node.name === "Icon") {
+              rightIcon = node.visible;
+              if (
+                node.mainComponent.key !==
+                  "00d984c97a797ab5db1e0471e7b855af8bc7861a" ||
+                node.mainComponent.key !==
+                  "8c5ebec94adeb7b28df1934694be77fcee85b070" ||
+                node.mainComponent.key !==
+                  "68f81d0c7ebcf33f74ac0ba2949283bb8b424002"
+              ) {
+                rightIconType = node.mainComponent.key;
               }
             }
-            traverse(node, node.children.length);
           }
+          traverse(node, node.children.length);
 
           if (node.overrides.length > 0) {
             // check for text overrides
@@ -395,7 +404,6 @@ figma.ui.onmessage = msg => {
               ) {
                 for (const child of node.children) traverse(child, i);
               } else if (node.type === "TEXT") {
-                console.log("Found text layer!");
                 textOverrides = node.characters; // save text override
               }
             }
@@ -409,7 +417,9 @@ figma.ui.onmessage = msg => {
             theme,
             textOverrides,
             leftIcon,
-            rightIcon
+            leftIconType,
+            rightIcon,
+            rightIconType
           ); //swap component
         } else {
           if (node.fills) {

@@ -5,10 +5,10 @@ import "../styles/nav.css";
 import "../styles/controls.css";
 import "../styles/empty-state.css";
 
-// @ts-ignore
-import ListItem from "./ListItem";
-
+//@ts-ignore
 import TokenList from "./TokenList";
+//@ts-ignore
+import TokenListBetter from "./TokenListBetter";
 
 const App = ({}) => {
   const [activeTab, setActiveTab] = React.useState("themes");
@@ -86,7 +86,8 @@ const App = ({}) => {
                 </li>
               </ul> */}
             <h3 className="type type--pos-large-normal">
-              Select a Figma Component—or multiple—then press the button below.
+              Select a Figma Component (or multiple), then press the button
+              below.
             </h3>
             <br></br>
             <button
