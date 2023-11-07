@@ -2,8 +2,6 @@
 figma.showUI(__html__, { width: 320, height: 358 });
 
 // Imported themes
-import { darkTheme } from "./dark-to-light-theme";
-import { lightTheme } from "./light-to-dark-theme";
 import { cdsTheme } from "./old-to-new-theme";
 
 // Utility function for serializing nodes to pass back to the UI.
@@ -62,18 +60,6 @@ figma.ui.onmessage = msg => {
   // When a theme is selected
   if (msg.type === "theme-update") {
     const nodesToTheme = figma.currentPage.selection;
-
-    if (msg.message === "dark-to-light-theme") {
-      // Update the layers with this theme, by passing in the
-      // selected nodes and the theme object.
-      nodesToTheme.map(selected => updateTheme(selected, darkTheme));
-    }
-
-    if (msg.message === "light-to-dark-theme") {
-      // Update the layers with this theme, by passing in the
-      // selected nodes and the theme object.
-      nodesToTheme.map(selected => updateTheme(selected, lightTheme));
-    }
 
     if (msg.message === "legacy-to-cds-theme") {
       // Update the layers with this theme, by passing in the

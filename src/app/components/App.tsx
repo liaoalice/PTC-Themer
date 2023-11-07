@@ -7,8 +7,6 @@ import "../styles/empty-state.css";
 
 //@ts-ignore
 import TokenList from "./TokenList";
-//@ts-ignore
-import TokenListBetter from "./TokenListBetter";
 
 const App = ({}) => {
   const [activeTab, setActiveTab] = React.useState("themes");
@@ -114,7 +112,7 @@ const App = ({}) => {
                     className={`section-title ${activeTab === "layers" ? "active" : "disabled"
                       }`}
                   >
-                    2.0 Theme
+                    10.0 Theme
                   </div>
                 </nav>
               </React.Fragment> */}
